@@ -1,0 +1,130 @@
+.body {
+  font-family: Arial, sans-serif;
+  background-image: url("https://imgpile.com/images/67c90eaf9604057f0f9c0e52ffeb119c.jpg");
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+}
+
+.welcome-container {
+  background-color: rgba(255, 255, 255, 0.683);
+  border-radius: 15px;
+  padding: 40px;
+  margin-top: -100px;
+  max-width: 550px;
+  width: 100%;
+  max-height: 600px;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.home-title {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 20px;
+}
+.home-subtitle {
+  font-family: "Brush Script MT", cursive;
+  font-style: italic;
+  font-size: 32px;
+  color: black;
+}
+
+.welcome-message p {
+  font-size: 18px;
+  color: #555;
+}
+
+.btn-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  margin-left: 10px;
+}
+
+.btn:hover {
+  background-color: #218838;
+}
+
+nav a {
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.top-btns {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.top-btns .btn {
+  background-color: rgba(222, 184, 135, 0.557);
+}
+
+.top-btns .btn:hover {
+  background-color: rgba(222, 184, 135, 0.557);
+}
+
+.radio-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.radio-container input {
+  margin: 0;
+  padding: 0;
+}
+
+.radio-container input[type="radio"] {
+  transform: scale(1.3);
+  margin: 0;
+  padding: 0;
+  margin-right: 8px;
+}
+
+.radio-container label {
+  font-size: 18px;
+  color: black;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.homesearch-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.search-input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  width: 400px;
+  margin-left: 15px;
+}

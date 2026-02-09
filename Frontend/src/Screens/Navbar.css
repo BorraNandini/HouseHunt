@@ -1,0 +1,119 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background-color: rgb(88, 51, 29);
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+nav {
+  display: flex;
+  gap: 15px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.navdropbtn {
+  background-color: rgb(88, 51, 29);
+  color: white;
+  padding: 8px 14px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+.my-image {
+  width: 50px;
+  height: auto;
+  transform: scale(3.3);
+  margin-left: 20px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  padding: 0;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 10px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #555;
+}
+
+.buyer-container {
+  display: flex;
+  flex-direction: row;
+}
+.navsearch-container {
+  display: flex;
+  align-items: center;
+  background: #f2f2f2;
+  padding: 6px 12px;
+  border-radius: 20px;
+  width: 150px;
+  height: 20px;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+}
+
+.navsearch-container input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 14px;
+}
+
+.navsearch-icon {
+  cursor: pointer;
+  color: #777;
+  font-size: 16px;
+}

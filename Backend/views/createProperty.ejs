@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <%- include('header') %>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-image: url("https://imgpile.com/images/67c90eaf9604057f0f9c0e52ffeb119c.jpg");
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        position: relative;
+        display: flex;
+        overflow: hidden;
+        flex-direction: column;
+      }
+ 
+      .container {
+        width: 80%;
+        max-width: 700px;
+        margin: 20px auto;
+        background-color: rgba(216, 212, 206, 0.708);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        max-height: 75vh;
+        margin-top: 45px;
+      }
+ 
+      h2 { 
+        text-align: center;
+        color: #333;
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+      
+ 
+      form {
+        display: block;
+        margin-top: 10px;
+      }
+ 
+      .form-group {
+        width: 100%;
+        margin-bottom: 15px;
+        position: relative;
+      }
+ 
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+ 
+      input.error,
+      select.error,
+      textarea.error {
+        border-color: red;
+      }
+ 
+      .error-message {
+        color: red;
+        font-size: 0.9em;
+        position: absolute;
+        bottom: -18px;
+        left: 0;
+      }
+ 
+      .button-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+ 
+      button {
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        font-size: 1.2em;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+ 
+      button:hover {
+        background-color: #45a049;
+      }
+ 
+      .radio-container {
+        display: flex;
+        justify-content: space-around;
+      }
+ 
+      .radio-container input {
+        margin-right: 10px;
+      }
+ 
+      .amenities-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 10px;
+      }
+      .amenity {
+        flex: 1 1 30%;
+        min-width: 200px;
+        padding: 5px;
+      }
+      .amenity label {
+        display: inline-flex;
+        align-items: center;
+        font-size: 14px;
+        margin-right: 10px;
+      }
+      .amenity input[type="checkbox"] {
+        margin-right: 8px;
+      }
+      .amenity-label {
+        white-space: nowrap;
+      }
+      .switch-form {
+        text-align: center;
+        color: white;
+      }
+ 
+      .switch-form a {
+        color: white;
+        text-decoration: none;
+      }
+ 
+      .switch-form a:hover {
+        text-decoration: underline;
+      }
+      .message-container {
+        padding: 10px;
+        margin: 20px auto;
+        font-weight: bold;
+        font-size: 1.3em;
+        text-align: center;
+        width: 100%;
+        max-width: 600px;
+        border-radius: 5px;
+      }
+      .message-container.error {
+        color: #a94442;
+      }
+      .message-container.success {
+        color: #3c763d;
+      }
+      @media screen and (max-width: 768px) {
+        .form-group {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+   <body>
+    <div class="container">
+      <h2>Create Property</h2>
+    <% if (typeof message !== 'undefined' && message) { %>
+  <div class="message-container <%= messageType %>"><%= message %></div>
+<% } %>
+      <form
+        action="/createProperty"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <div class="form-group">
+          <label>Property Status:</label>
+          <div class="radio-container">
+            <label for="rent">
+              <input type="radio" id="rent" name="property_status" value="rent"
+              onchange="toggleRentBuyFields()" <%= data.property_status ===
+              'rent' ? 'checked' : '' %> /> Rent
+            </label>
+            <label for="buy">
+              <input type="radio" id="buy" name="property_status" value="buy"
+              onchange="toggleRentBuyFields()" <%= data.property_status ===
+              'buy' ? 'checked' : '' %> /> Buy
+            </label>
+          </div>
+        </div>
+ 
+        <div class="form-group">
+          <label for="name">Property Name:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="<%= errors.name ? 'error' : '' %>"
+            value="<%= data.name || '' %>"
+            oninput="clearError('name')"
+          />
+          <% if (errors.name) { %>
+          <div class="error-message"><%= errors.name.msg %></div>
+          <% } %>
+        </div>
+ 
+        <div class="form-group">
+          <label for="type">Property Type:</label>
+           <select
+      id="type"
+      name="type"
+      class="<%= errors.type ? 'error' : '' %>"
+      oninput="clearError('type')"
+    >
+      <option value="community" <%= data.type === 'community' ? 'selected' : '' %>>Community</option>
+      <option value="apartment" <%= data.type === 'apartment' ? 'selected' : '' %>>Apartment</option>
+      <option value="individual" <%= data.type === 'individual' ? 'selected' : '' %>>Individual</option>
+    </select>
+          <% if (errors.type) { %>
+          <div class="error-message"><%= errors.type.msg %></div>
+          <% } %>
+        </div>
+ 
+        <div class="form-group">
+          <label for="address">Address:</label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            class="<%= errors.address ? 'error' : '' %>"
+            value="<%= data.address || '' %>"
+            oninput="clearError('address')"
+          />
+          <% if (errors.address) { %>
+          <div class="error-message"><%= errors.address.msg %></div>
+          <% } %>
+        </div>
+ 
+        <div class="form-group">
+          <label for="state">State:</label>
+          <input
+            type="text"
+            id="state"
+            name="state"
+            class="<%= errors.state ? 'error' : '' %>"
+            value="<%= data.state || '' %>"
+            oninput="clearError('state')"
+          />
+          <% if (errors.state) { %>
+          <div class="error-message"><%= errors.state.msg %></div>
+          <% } %>
+        </div>
+ 
+        <div class="form-group">
+          <label for="city">City:</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            class="<%= errors.city ? 'error' : '' %>"
+            value="<%= data.city || '' %>"
+            oninput="clearError('city')"
+          />
+          <% if (errors.city) { %>
+          <div class="error-message"><%= errors.city.msg %></div>
+          <% } %>
+        </div>
+ 
+        <div class="form-group">
+          <label for="country">Country:</label>
+          <input
+            type="text"
+            id="country"
+            name="country"
+            class="<%= errors.country ? 'error' : '' %>"
+            value="<%= data.country || '' %>"
+            oninput="clearError('country')"
+          />
+          <% if (errors.country) { %>
+          <div class="error-message"><%= errors.country.msg %></div>
+          <% } %>
+        </div>
+ 
+        <div class="form-group">
+          <label for="zip_code">Zip Code:</label>
+          <input
+            type="text"
+            id="zip_code"
+            name="zip_code"
+            class="<%= errors.zip_code ? 'error' : '' %>"
+            value="<%= data.zip_code || '' %>"
+            oninput="clearError('zip_code')"
+          />
+          <% if (errors.zip_code) { %>
+          <div class="error-message"><%= errors.zip_code.msg %></div>
+          <% } %>
+        </div>
+ 
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea
+            id="description"
+            name="description"
+            class="<%= errors.description ? 'error' : '' %>"
+            oninput="clearError('description')"
+          >
+<%= data.description || '' %></textarea
+          >
+          <% if (errors.description) { %>
+          <div class="error-message"><%= errors.description.msg %></div>
+          <% } %>
+        </div>
+ 
+        <div class="form-group">
+          <label for="floor">Floor:</label>
+          <select
+            id="floor"
+            name="floor"
+            class="<%= errors.floor ? 'error' : '' %>"
+            oninput="clearError('floor')"
+          >
+            <option value="ground floor"
+              <%= data.floor === 'ground floor' ? 'selected' : '' %>>Ground Floor
+            </option>
+            <option value="1"
+              <%= data.floor === '1' ? 'selected' : '' %>>1st Floor
+            </option>
+            <option value="2"
+              <%= data.floor === '2' ? 'selected' : '' %>>2nd Floor
+            </option>
+            <option value="3"
+              <%= data.floor === '3' ? 'selected' : '' %>>3rd Floor
+            </option>
+            <option value="4"
+              <%= data.floor === '4' ? 'selected' : '' %>>4th Floor
+            </option>
+            <option value="5"
+              <%= data.floor === '5' ? 'selected' : '' %>>5th Floor
+            </option>
+            <option value="6"
+              <%= data.floor === '6' ? 'selected' : '' %>>6th Floor
+            </option>
+            <option value="7"
+              <%= data.floor === '7' ? 'selected' : '' %>>7th Floor
+            </option>
+            <option value="8"
+              <%= data.floor === '8' ? 'selected' : '' %>>8th Floor
+            </option>
+            <option value="9"
+              <%= data.floor === '9' ? 'selected' : '' %>>9th Floor
+            </option>
+            <option value="10"
+              <%= data.floor === '10' ? 'selected' : '' %>>10th Floor
+            </option>
+          </select>
+          <% if (errors.floor) { %>
+          <div class="error-message"><%= errors.floor.msg %></div>
+          <% } %>
+        </div>
+ 
+        <div class="form-group">
+          <label for="total_floor">Total Floor:</label>
+          <select
+            id="total_floor"
+            name="total_floor"
+            class="<%= errors.total_floor ? 'error' : '' %>"
+            oninput="clearError('total_floor')"
+          >
+<option value="ground floor" <%= data.floor === 'ground floor' ? 'selected' : '' %>>Ground Floor</option>
+<option value="1" <%= data.floor === '1' ? 'selected' : '' %>>1st Floor</option>
+<option value="2" <%= data.floor === '2' ? 'selected' : '' %>>2nd Floor</option>
+<option value="3" <%= data.floor === '3' ? 'selected' : '' %>>3rd Floor</option>
+<option value="4" <%= data.floor === '4' ? 'selected' : '' %>>4th Floor</option>
+<option value="5" <%= data.floor === '5' ? 'selected' : '' %>>5th Floor</option>
+<option value="6" <%= data.floor === '6' ? 'selected' : '' %>>6th Floor</option>
+<option value="7" <%= data.floor === '7' ? 'selected' : '' %>>7th Floor</option>
+<option value="8" <%= data.floor === '8' ? 'selected' : '' %>>8th Floor</option>
+<option value="9" <%= data.floor === '9' ? 'selected' : '' %>>9th Floor</option>
+<option value="10" <%= data.floor === '10' ? 'selected' : '' %>>10th Floor</option>
+ 
+          </select>
+          <% if (errors.floor) { %>
+          <div class="error-message"><%= errors.floor.msg %></div>
+          <% } %>
+        </div>
+ 
+        <div id="rent-fields" style="display: none">
+          <div class="form-group">
+            <label for="base_price">Base Price:</label>
+            <input
+              type="text"
+              id="base_price"
+              name="base_price"
+              value="<%= data.base_price || '' %>"
+              oninput="clearError('base_price')"
+            />
+            <% if (errors.base_price) { %>
+            <div class="error-message"><%= errors.base_price.msg %></div>
+            <% } %>
+          </div>
+ 
+          <div class="form-group">
+            <label for="amenity_price">Amenity Price:</label>
+            <input
+              type="text"
+              id="amenity_price"
+              name="amenity_price"
+              value="<%= data.amenity_price || '' %>"
+              oninput="clearError('amenity_price')"
+            />
+            <% if (errors.amenity_price) { %>
+            <div class="error-message"><%= errors.amenity_price.msg %></div>
+            <% } %>
+          </div>
+ 
+          <div class="form-group">
+            <label for="maintenance_price">Maintenance Price:</label>
+            <input
+              type="text"
+              id="maintenance_price"
+              name="maintenance_price"
+              value="<%= data.maintenance_price || '' %>"
+              oninput="clearError('maintenance_price')"
+            />
+            <% if (errors.maintenance_price) { %>
+            <div class="error-message"><%= errors.maintenance_price.msg %></div>
+            <% } %>
+          </div>
+        </div>
+<div id="total_price_group" style="display: none;">
+  <div class="form-group">
+  <label for="total_price">Total Price:</label>
+  <input
+    type="text"
+    id="total_price"
+    name="total_price"
+    value="<%= data.total_price || '' %>"
+    oninput="clearError('total_price')"
+  />
+  <% if (errors.total_price) { %>
+  <div class="error-message"><%= errors.total_price.msg %></div>
+  <% } %>
+  </div>
+</div>
+ 
+        <div id="preferred-tenants" style="display: none">
+          <div class="form-group">
+            <label for="preferred_tenants">Preferred Tenants:</label>
+            <select
+              id="preferred_tenants"
+              name="preferred_tenants"
+              class="<%= errors.preferred_tenants ? 'error' : '' %>"
+              onchange="clearError('preferred_tenants')"
+            >
+              <option value="anyone"
+                <%= data.preferred_tenants === 'anyone' ? 'selected' : ''
+                %>>Anyone
+              </option>
+              <option value="bachelors"
+                <%= data.preferred_tenants === 'bachelors' ? 'selected' : ''
+                %>>Bachelors
+              </option>
+              <option value="family"
+                <%= data.preferred_tenants === 'family' ? 'selected' : ''
+                %>>Family
+              </option>
+            </select>
+            <% if (errors.preferred_tenants) { %>
+            <div class="error-message"><%= errors.preferred_tenants.msg %></div>
+            <% } %>
+          </div>
+        </div>
+ 
+        <div class="form-group">
+          <label for="availability_status">Availability Status:</label>
+          <select
+            id="availability_status"
+            name="availability_status"
+            class="<%= errors.availability_status ? 'error' : '' %>"
+            onchange="clearError('availability_status')"
+          >
+            <option value="available">
+              <%= data.availability_status === 'available' ? 'selected' : ''
+              %>Available
+            </option>
+            <option value="not available">
+              <%= data.availability_status === 'not available' ? 'selected' : ''
+              %>Not Available
+            </option>
+          </select>
+          <% if (errors.availability_status) { %>
+          <div class="error-message"><%= errors.availability_status.msg %></div>
+          <% } %>
+        </div>
+ 
+        <div class="form-group">
+          <label for="available_from">Available From:</label>
+          <input
+            type="date"
+            id="available_from"
+            name="available_from"
+            class="<%= errors.available_from ? 'error' : '' %>"
+            value="<%= data.available_from || '' %>"
+            oninput="clearError('available_from')"
+          />
+          <% if (errors.available_from) { %>
+          <div class="error-message"><%= errors.available_from.msg %></div>
+          <% } %>
+        </div>
+ 
+        <div class="form-group">
+          <label for="size">Size (in sq. ft.):</label>
+          <input
+            type="number"
+            id="size"
+            name="size"
+            value="<%= data.size || '' %>"
+            class="<%= errors.size ? 'error' : '' %>"
+            oninput="clearError('size')"
+          />
+          <% if (errors.size) { %>
+          <div class="error-message"><%= errors.size.msg %></div>
+          <% } %>
+        </div>
+ 
+       <div class="form-group">
+  <label for="property_age">Property Age:</label>
+  <select id="property_age" name="property_age" class="form-control" onchange="clearError('property_age')">
+    <option value="">Select Property Age</option>
+    <option value="1-2 year" <%= data.property_age === '1-2 year' ? 'selected' : '' %>>1-2 year</option>
+    <option value="2-3 year" <%= data.property_age === '2-3 year' ? 'selected' : '' %>>2-3 year</option>
+    <option value="3-4 year" <%= data.property_age === '3-4 year' ? 'selected' : '' %>>3-4 year</option>
+    <option value="4-5 year" <%= data.property_age === '4-5 year' ? 'selected' : '' %>>4-5 year</option>
+    <option value="More than 5 year" <%= data.property_age === 'More than 5 year' ? 'selected' : '' %>>More than 5 year</option>
+  </select>
+  <% if (errors.property_age) { %>
+    <div class="error-message"><%= errors.property_age.msg %></div>
+  <% } %>
+</div>
+<div class="form-group">
+  <label for="bhk_type">BHK Type:</label>
+  <select id="bhk_type" name="bhk_type" class="form-control" onchange="clearError('bhk_type')">
+    <option value="">Select BHK Type</option>
+    <option value="3BHK" <%= data.bhk_type === '3BHK' ? 'selected' : '' %>>3BHK</option>
+    <option value="2BHK" <%= data.bhk_type === '2BHK' ? 'selected' : '' %>>2BHK</option>
+    <option value="1BHK" <%= data.bhk_type === '1BHK' ? 'selected' : '' %>>1BHK</option>
+    <option value="1RK" <%= data.bhk_type === '1RK' ? 'selected' : '' %>>1RK</option>
+  </select>
+  <% if (errors.bhk_type) { %>
+    <div class="error-message"><%= errors.bhk_type.msg %></div>
+  <% } %>
+</div>
+<div class="form-group">
+  <label for="available_bathrooms">Available Bathrooms:</label>
+  <select id="available_bathrooms" name="available_bathrooms" class="form-control" onchange="clearError('available_bathrooms')">
+    <option value="">Select Number of Bathrooms</option>
+    <option value="1" <%= data.available_bathrooms == 1 ? 'selected' : '' %>>1</option>
+    <option value="2" <%= data.available_bathrooms == 2 ? 'selected' : '' %>>2</option>
+    <option value="3" <%= data.available_bathrooms == 3 ? 'selected' : '' %>>3</option>
+  </select>
+  <% if (errors.available_bathrooms) { %>
+    <div class="error-message"><%= errors.available_bathrooms.msg %></div>
+  <% } %>
+</div>
+ 
+       <div class="form-group">
+  <label for="furnishing">Furnishing Type:</label>
+  <select id="furnishing" name="furnishing" class="form-control" onchange="clearError('furnishing')">
+    <option value="">Select Furnishing Type</option>
+    <option value="fully furnished" <%= data.furnishing === 'fully furnished' ? 'selected' : '' %>>Fully Furnished</option>
+    <option value="semi-furnished" <%= data.furnishing === 'semi-furnished' ? 'selected' : '' %>>Semi-furnished</option>
+    <option value="unfurnished" <%= data.furnishing === 'unfurnished' ? 'selected' : '' %>>Unfurnished</option>
+  </select>
+  <% if (errors.furnishing) { %>
+    <div class="error-message"><%= errors.furnishing.msg %></div>
+  <% } %>
+</div>
+       <div class="form-group">
+  <label for="parking">Parking Type:</label>
+  <select id="parking" name="parking" class="form-control" onchange="clearError('parking')">
+    <option value="">Select Parking Type</option>
+    <option value="car" <%= data.parking === 'car' ? 'selected' : '' %>>Car</option>
+    <option value="bike" <%= data.parking === 'bike' ? 'selected' : '' %>>Bike</option>
+    <option value="both car and bike" <%= data.parking === 'both car and bike' ? 'selected' : '' %>>Both Car and Bike</option>
+    <option value="none" <%= data.parking === 'none' ? 'selected' : '' %>>None</option>
+  </select>
+  <% if (errors.parking) { %>
+    <div class="error-message"><%= errors.parking.msg %></div>
+  <% } %>
+</div>
+ 
+        <div class="form-group">
+          <label for="images">Images:</label>
+          <input
+            type="file"
+            id="images"
+            name="images"
+            multiple
+            value="<%= data.images || '' %>"
+            class="<%= errors.images ? 'error' : '' %>"
+            oninput="clearError('images')"
+          />
+          <% if (errors.images) { %>
+          <div class="error-message"><%= errors.images.msg %></div>
+          <% } %>
+        </div>
+ 
+       <div class="form-group">
+  <label>Amenities:</label>
+  <div class="amenities-container">
+    <% const allAmenities = [
+      "swimming pool", "gym", "play area", "Lift", "Internet Services",
+      "Air Conditioner", "Club House", "Intercom", "Fire Safety",
+      "Gas Pipeline", "House Keeping", "Power Backup", "Visitor Parking"
+    ]; %>
+    <% allAmenities.forEach((amenity, index) => { %>
+      <div class="amenity">
+        <label for="amenity<%= index %>">
+         <input
+  type="checkbox"
+  id="amenity<%= index %>"
+  name="amenities"
+  value="<%= amenity %>"
+  onchange="clearError('amenities')"
+  <%= (data.amenities || []).includes(amenity) ? 'checked' : '' %>
+/>
+ 
+          <span class="amenity-label"><%= amenity %></span>
+        </label>
+      </div>
+    <% }) %>
+  </div>
+  <% if (errors.amenities) { %>
+    <div class="error-message"><%= errors.amenities.msg %></div>
+  <% } %>
+</div>
+  <div class="button-container">
+          <button type="submit">Create Property</button>
+        </div>
+ 
+  <script>
+  function toggleRentBuyFields() {
+    const rentFields = document.getElementById("rent-fields");
+    const preferredTenants = document.getElementById("preferred-tenants");
+    const isRent = document.getElementById("rent").checked;
+
+    rentFields.style.display = isRent ? "block" : "none";
+    preferredTenants.style.display = isRent ? "block" : "none";
+  }
+
+  function toggleTotalPriceField() {
+    const totalPriceGroup = document.getElementById("total_price_group");
+    const isBuy = document.getElementById("buy").checked;
+
+    totalPriceGroup.style.display = isBuy ? "block" : "none";
+  }
+
+  function clearError(fieldName) {
+    let inputElement = document.getElementById(fieldName);
+
+    if (!inputElement) {
+      const elements = document.getElementsByName(fieldName);
+      if (elements.length > 0) {
+        inputElement = elements[0];
+      }
+    }
+
+    if (!inputElement) return;
+
+    const formGroup = inputElement.closest(".form-group");
+    if (!formGroup) return;
+
+    const errorMessage = formGroup.querySelector(".error-message");
+    if (errorMessage) {
+      errorMessage.style.display = "none";
+    }
+
+    inputElement.classList.remove("error");
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    toggleRentBuyFields();
+    toggleTotalPriceField();
+  });
+
+  document.getElementById("rent").addEventListener("change", () => {
+    toggleRentBuyFields();
+    toggleTotalPriceField();
+  });
+
+  document.getElementById("buy").addEventListener("change", () => {
+    toggleRentBuyFields();
+    toggleTotalPriceField();
+  });
+</script>
+
+      </form>
+    </div>
+  </body>
+</html>
+ 
+ 

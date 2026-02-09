@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <%- include('header') %>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-image: url("https://imgpile.com/images/67c90eaf9604057f0f9c0e52ffeb119c.jpg");
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        flex-direction: column;
+      }
+
+      .container {
+        margin-top: 100px;
+        width: 100%;
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px;
+        background-color: #ffffffbe;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 20px;
+      }
+
+      .message {
+        font-size: 1.2rem;
+        color: #0e5308;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .properties-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        justify-content: flex-start;
+      }
+
+      .property-card {
+        background-color: #ffffffc4;
+        padding: 20px;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .property-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .property-card h2 {
+        font-size: 1.8rem;
+        color: #3498db;
+        margin-bottom: 10px;
+      }
+
+      .property-card p {
+        font-size: 1rem;
+        margin-bottom: 10px;
+      }
+
+      .amenities,
+      .property-images {
+        margin-top: 20px;
+      }
+
+      h3 {
+        font-size: 1.2rem;
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      ul {
+        padding-left: 20px;
+      }
+
+      ul li {
+        list-style-type: square;
+        font-size: 1rem;
+      }
+
+      .property-images .image-gallery {
+        display: flex;
+        gap: 10px;
+      }
+
+      .property-image {
+        width: 100%;
+        max-width: 120px;
+        height: auto;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
+      .view-details {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: #fff;
+        font-size: 1.1rem;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        text-align: center;
+      }
+
+      .view-details:hover {
+        background-color: #2980b9;
+      }
+
+      .btn-common {
+        background-color: #985c0e;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+
+      .btn-common:hover {
+        background-color: #362006;
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          width: 90%;
+        }
+
+        .properties-list {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .property-card {
+          width: 90%;
+          margin-bottom: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Properties</h1>
+
+      <% if (message) { %>
+      <p class="message"><%= message %></p>
+      <% } %> <% if (properties && properties.length > 0) { %>
+      <div class="properties-list">
+        <% properties.forEach(function(property) { %>
+        <div class="property-card">
+          <h3><%= property.name %></h3>
+          <p><strong>Description:</strong> <%= property.description %></p>
+          <p><strong>Available:</strong> <%= property.availability_status %></p>
+
+          <div class="property-images">
+            <h3>Images</h3>
+            <div class="image-gallery">
+              <% property.images.forEach(function(image) { %>
+              <img
+                src="<%= image.image_path %>"
+                alt="Property image"
+                class="property-image"
+              />
+              <% }) %>
+            </div>
+          </div>
+          <a href="/propertyInfo/<%= property.id %>" class="view-details"
+            >View Details</a
+          >
+        </div>
+        <% }) %>
+      </div>
+      <% } else { %>
+      <p>No properties available.</p>
+      <% } %>
+    </div>
+  </body>
+</html>

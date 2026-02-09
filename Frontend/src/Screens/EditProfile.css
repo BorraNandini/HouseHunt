@@ -1,0 +1,27 @@
+.edit-body {
+  font-family: Arial, sans-serif;
+  background-image: url("https://imgpile.com/images/67c90eaf9604057f0f9c0e52ffeb119c.jpg");
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+}
+
+.edit-container {
+  background-color: rgba(255, 255, 255, 0.683);
+  border-radius: 15px;
+  padding: 40px;
+  margin-top: -100px;
+  max-width: 550px;
+  width: 100%;
+  max-height: 600px;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}

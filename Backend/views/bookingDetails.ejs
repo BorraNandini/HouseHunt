@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <%- include('header') %>
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-image: url("https://imgpile.com/images/67c90eaf9604057f0f9c0e52ffeb119c.jpg");
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background-attachment: fixed;
+        overflow: hidden;
+      }
+
+      .container {
+        margin-top: 40px;
+        width: 75%;
+
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px;
+        background-color: #ffffffbe;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+        text-align: center;
+      }
+
+      .accordion-item {
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        overflow: hidden;
+        background-color: #ffffffdc;
+      }
+
+      .accordion-header {
+        background-color: rgb(180, 115, 75);
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        font-size: 1.2em;
+        font-weight: bold;
+        text-align: left;
+        border: none;
+        width: 100%;
+      }
+
+      .accordion-body {
+        display: none;
+        padding: 15px;
+        text-align: center;
+      }
+
+      .accordion-body p {
+        margin: 8px 0;
+      }
+
+      .active + .accordion-body {
+        display: block;
+      }
+
+      .booking-header,
+      .user-header {
+        color: rgb(146, 135, 250);
+        font-size: 2em;
+        margin-bottom: 10px;
+      }
+
+      .booking-info-wrapper,
+      .user-info-wrapper {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+      }
+
+      .booking-info-grid,
+      .user-info-grid {
+        display: grid;
+        grid-template-columns: max-content auto;
+        gap: 12px 30px;
+        max-width: 600px;
+        font-size: 1.1em;
+      }
+
+      .booking-info-grid div,
+      .user-info-grid div {
+        text-align: left;
+      }
+
+      .booking-info-grid div:nth-child(odd),
+      .user-info-grid div:nth-child(odd) {
+        font-weight: bold;
+        color: black;
+      }
+
+      .no-booking-message p {
+        margin: 40px auto;
+        color: rgba(255, 0, 0, 0.7);
+        font-size: 1.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Booking Details for Property: <%= property.name %></h1>
+
+      <% if (bookings && bookings.length > 0) { %> <%
+      bookings.forEach(function(booking, index) { %>
+      <div class="accordion-item">
+        <button class="accordion-header">
+          Booking <%= index + 1 %>: <%= booking.booking_status %> <% if
+          (booking.property_status === 'rent') { %> - <%= new
+          Date(booking.start_date).toDateString() %> to <%= new
+          Date(booking.end_date).toDateString() %> <% } %>
+        </button>
+
+        <div class="accordion-body">
+          <div class="booking-status">
+            <h3 class="booking-header">Booking Info</h3>
+            <div class="booking-info-wrapper">
+              <div class="booking-info-grid">
+                <div>Status:</div>
+                <div><%= booking.booking_status %></div>
+                <div>Payment Status:</div>
+                <div><%= booking.payment_status %></div>
+                <div>Payment Method:</div>
+                <div><%= booking.payment_method %></div>
+                <div>Transaction ID:</div>
+                <div><%= booking.transaction_id || 'Not available' %></div>
+
+                <% if (booking.property_status=== 'rent') { %>
+                <div>Start Date:</div>
+                <div><%= new Date(booking.start_date).toDateString() %></div>
+                <div>End Date:</div>
+                <div><%= new Date(booking.end_date).toDateString() %></div>
+                <% } %>
+
+                <div>Booking Price:</div>
+                <div>₹<%= booking.total_price.toLocaleString("en-IN") %></div>
+                <div>Property Status:</div>
+                <div><%= booking.property_status %></div>
+                <div>Government ID Proof:</div>
+                <div><%= booking.government_id_proof %></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-info">
+            <h3 class="user-header">User Information</h3>
+            <div class="user-info-wrapper">
+              <div class="user-info-grid">
+                <div>Name:</div>
+                <div>
+                  <%= booking.user.firstname %> <%= booking.user.lastname %>
+                </div>
+                <div>Email:</div>
+                <div><%= booking.user.email %></div>
+                <div>Phone:</div>
+                <div><%= booking.user.mobile_number %></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }); %> <% } else { %>
+      <div class="no-booking-message">
+        <p>No bookings found for this property.</p>
+      </div>
+      <% } %>
+
+      <script>
+        document.querySelectorAll(".accordion-header").forEach((button) => {
+          button.addEventListener("click", () => {
+            button.classList.toggle("active");
+
+            const body = button.nextElementSibling;
+            body.style.display =
+              body.style.display === "block" ? "none" : "block";
+          });
+        });
+      </script>
+    </div>
+  </body>
+</html>

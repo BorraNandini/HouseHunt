@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      header {
+        background-color: #494646;
+        color: white;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 28px;
+      }
+
+      nav {
+        display: flex;
+        gap: 15px;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+      }
+
+      nav a:hover {
+        background-color: #555;
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropbtn {
+        background-color: #333;
+        color: white;
+        padding: 8px 14px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 10px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .dropdown:hover .dropbtn {
+        background-color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/homePage" style="text-decoration: none; color: inherit">
+        <h1><i class="fa-solid fa-house"></i> House Hunt</h1>
+      </a>
+      <nav>
+        <% if (!user) { %>
+        <a href="/register">Register</a>
+        <a href="/login">Login</a>
+
+        <% } %> <% if (user && user.role === 'owner') { %>
+        <div class="dropdown">
+          <button class="dropbtn">Property Owners</button>
+          <div class="dropdown-content">
+            <a href="/createProperty">Create Property</a>
+            <a href="/propertylisting">Properties List</a>
+            <a href="/bookinglisting">Booking List</a>
+            <a href="/rentalAgreements">View Rental Agreements</a>
+          </div>
+        </div>
+        <% } %> <% if (user && user.role === 'tenant') { %>
+        <a href="/ShortlistedProperties" title="View Shortlisted Properties">
+          <% if (typeof hasShortlisted !== 'undefined' && hasShortlisted) { %>
+          <i
+            class="fas fa-heart"
+            style="color: red; cursor: pointer; font-size: 20px"
+          ></i>
+          <% } else { %>
+          <i class="far fa-heart" style="cursor: pointer; font-size: 20px"></i>
+          <% } %>
+        </a>
+
+        <a href="/search-filterProperties">Search Properties</a>
+        <div class="dropdown">
+          <button class="dropbtn">View Properties</button>
+          <div class="dropdown-content">
+            <a href="/propertylisting">Properties List</a>
+            <a href="/bookinglisting">Booking List</a>
+            <a href="/rentalAgreements">View Rental Agreements</a>
+          </div>
+        </div>
+        <% } %> <% if (user && user.role === 'buyer') { %>
+        <a href="/ShortlistedProperties" title="View Shortlisted Properties">
+          <% if (typeof hasShortlisted !== 'undefined' && hasShortlisted) { %>
+          <i
+            class="fas fa-heart"
+            style="color: red; cursor: pointer; font-size: 23px"
+          ></i>
+          <% } else { %>
+          <i class="far fa-heart" style="cursor: pointer; font-size: 23px"></i>
+          <% } %>
+        </a>
+
+        <a href="/search-filterProperties">Search Properties</a>
+        <div class="dropdown">
+          <button class="dropbtn">View Properties</button>
+          <div class="dropdown-content">
+            <a href="/propertylisting">Properties List</a>
+            <a href="/bookinglisting">Booking List</a>
+          </div>
+        </div>
+        <% } %> <% if (user) { %>
+
+        <div class="dropdown">
+          <button class="dropbtn">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <%= user ? 'Hi, ' + user.firstname : 'Profile' %>
+          </button>
+
+          <div class="dropdown-content">
+            <a href="/editProfile">Edit Profile</a>
+            <a href="/changePassword">Change Password</a>
+
+            <% if (user) { %>
+            <form action="/logout" method="POST">
+              <a href="#" onclick="logout()">Logout</a>
+            </form>
+            <% } %>
+          </div>
+        </div>
+        <% } %>
+      </nav>
+    </header>
+    <script>
+      function logout() {
+        fetch("/logout", {
+          method: "POST",
+          credentials: "include",
+        })
+          .then(() => {
+            window.location.href = "/homePage";
+          })
+          .catch((err) => {
+            console.error("Logout failed:", err);
+          });
+      }
+    </script>
+  </body>
+</html>

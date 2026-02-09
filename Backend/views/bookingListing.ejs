@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <%- include('header') %>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-image: url("https://imgpile.com/images/67c90eaf9604057f0f9c0e52ffeb119c.jpg");
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        position: relative;
+        display: flex;
+        overflow: hidden;
+        flex-direction: column;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1000px;
+        margin: 20px auto;
+        background-color: rgba(216, 212, 206, 0.708);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+      }
+
+      h1 {
+        text-align: center;
+        /* color: #333; */
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+      }
+
+      th {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      td {
+        background-color: #f2f2f2;
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .pagination a {
+        margin: 0 5px;
+        padding: 8px 16px;
+        background-color: #4caf50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      .pagination a:hover {
+        background-color: #45a049;
+      }
+
+      .pagination .active {
+        background-color: #3e8e41;
+      }
+
+      .modal {
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        width: 30%;
+        border-radius: 8px;
+        position: relative;
+        text-align: center;
+      }
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      .radio-group {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .booking-btn {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+      }
+
+      .modal-btn {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .modal-btn button {
+        padding: 10px 20px;
+        background-color: green;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .model-btn button:hover {
+        background-color: lightgreen;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="updateModal" class="modal" style="display: none">
+      <div class="modal-content">
+        <p id="modalMessage" style="color: green; margin-top: 10px"></p>
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Update Booking</h2>
+        <p>Booking ID: <span id="modalBookingId"></span></p>
+
+        <form id="updateForm">
+          <label>Select New Status:</label><br />
+
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              gap: 30px;
+              margin-top: 10px;
+            "
+          >
+            <label
+              ><input type="radio" name="status" value="confirmed" />
+              Confirmed</label
+            >
+            <label
+              ><input type="radio" name="status" value="cancelled" />
+              Cancelled</label
+            >
+          </div>
+          <br />
+          <div class="modal-btn">
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="container">
+      <h1>Booking Listings</h1>
+
+      <% if (bookings.length === 0) { %>
+      <p>No bookings available for your properties.</p>
+      <% } else { %>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Status</th>
+            <th>Payment Status</th>
+            <th>Government ID Proof</th>
+            <th>Payment Method</th>
+            <th>Transaction ID</th>
+            <th>Property Name</th>
+            <th>Total Price</th>
+            <th>User Name</th>
+            <th>Mobile Number</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% bookings.forEach(booking => { %>
+          <tr id="booking-<%= booking.id %>">
+            <td><%= booking.id %></td>
+            <td><%= booking.booking_status %></td>
+            <td><%= booking.payment_status %></td>
+            <td><%= booking.government_id_proof %></td>
+            <td><%= booking.payment_method %></td>
+            <td><%= booking.transaction_id || 'Not available' %></td>
+            <td><%= booking.property?.name || 'N/A' %></td>
+            <td><%= booking.property?.total_price || 'N/A' %></td>
+
+            <% if (role === 'owner' && booking.user) { %>
+            <td><%= booking.user.firstname %> <%= booking.user.lastname %></td>
+            <td><%= booking.user.mobile_number %></td>
+            <% } else if ((role === 'tenant' || role === 'buyer') &&
+            booking.property?.owner) { %>
+            <td>
+              <%= booking.property.owner.firstname %> <%=
+              booking.property.owner.lastname %>
+            </td>
+            <td><%= booking.property.owner.mobile_number %></td>
+            <% } else { %>
+            <td colspan="2"><em>User info not available</em></td>
+            <% } %>
+            <td>
+              <% if (role === 'owner') { %> <% if (booking.booking_status ===
+              'cancelled' && booking.payment_status === 'pending') { %>
+              <p>❌ Booking is cancelled.</p>
+
+              <% } else if (booking.payment_status === 'done' &&
+              booking.booking_status === 'confirmed') { %> <% if
+              (booking.rental_agreement_created === true) { %>
+              <p>✅ Booking is confirmed.</p>
+              <p>📄 Rental Agreement is created.</p>
+              <% } else { %>
+              <p>✅ Booking is confirmed.</p>
+              <h2>
+                <i
+                  class="fa-solid fa-file-contract"
+                  onclick="createRentalAgreement('<%= booking.id %>')"
+                  style="cursor: pointer"
+                  title="Create Agreement"
+                ></i>
+              </h2>
+              <% } %> <% } else if ( (booking.payment_status === 'pending' &&
+              booking.booking_status === 'pending') || (booking.payment_status
+              === 'done' && booking.booking_status === 'pending') ) { %>
+
+              <div class="booking-btn">
+                <h2>
+                  <i
+                    class="fa-solid fa-pen-to-square"
+                    onclick="update('<%= booking.id %>', '<%= booking.booking_status %>', '<%= booking.payment_status %>')"
+                    style="cursor: pointer"
+                    title="Update Booking Status"
+                  ></i>
+                </h2>
+                <% if (!booking.rental_agreement_created) { %>
+                <h2>
+                  <i
+                    class="fa-solid fa-file-contract"
+                    onclick="createRentalAgreement('<%= booking.id %>')"
+                    style="cursor: pointer"
+                    title="Create Agreement"
+                  ></i>
+                </h2>
+                <% } else { %>
+                <p>📄 Rental Agreement already created.</p>
+                <% } %>
+              </div>
+
+              <% } %> <% } else { %> <% if (booking.booking_status ===
+              'confirmed') { %>
+              <p>✅ Booking confirmed</p>
+              <% } else if (booking.booking_status === 'cancelled') { %>
+              <p>❌ Booking cancelled</p>
+              <% } else { %>
+              <p>⏳ Booking pending</p>
+              <% } %> <% } %>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <% if (currentPage > 1) { %>
+        <a href="?page=<%= currentPage - 1 %>">&laquo; Previous</a>
+        <% } %> <% for (let i = 1; i <= totalPages; i++) { %>
+        <a
+          href="?page=<%= i %>"
+          class="<%= currentPage === i ? 'active' : '' %>"
+          ><%= i %></a
+        >
+        <% } %> <% if (currentPage < totalPages) { %>
+        <a href="?page=<%= currentPage + 1 %>">Next &raquo;</a>
+        <% } %>
+      </div>
+
+      <% } %>
+    </div>
+
+    <script>
+      function createRentalAgreement(BookingId) {
+        window.location.href = `/createRentalAgreement/${BookingId}`;
+      }
+
+      let selectedBookingId = null;
+      let currentBookingStatus = null;
+      let currentPaymentStatus = null;
+      const updatedBookings = {};
+
+      function createRentalAgreement(BookingId) {
+        window.location.href = `/createRentalAgreement/${BookingId}`;
+      }
+
+      function update(BookingId, bookingStatus, paymentStatus) {
+        selectedBookingId = BookingId;
+        currentBookingStatus = bookingStatus;
+        currentPaymentStatus = paymentStatus;
+
+        document.getElementById("modalBookingId").innerText = BookingId;
+        document.getElementById("modalMessage").textContent = "";
+        document.getElementById("updateModal").style.display = "block";
+
+        document.querySelectorAll('input[name="status"]').forEach((input) => {
+          input.checked = false;
+          input.disabled = !!updatedBookings[BookingId];
+        });
+
+        document.querySelector('#updateForm button[type="submit"]').disabled =
+          !!updatedBookings[BookingId];
+      }
+
+      function closeModal() {
+        document.getElementById("updateModal").style.display = "none";
+      }
+
+      function submitUpdate() {
+        if (!selectedBookingId) {
+          showMessage("Please select a booking first.", "red");
+          return;
+        }
+
+        if (updatedBookings[selectedBookingId]) {
+          showMessage("This booking has already been updated.", "red");
+          return;
+        }
+
+        const selectedRadio = document.querySelector(
+          'input[name="status"]:checked'
+        );
+        if (!selectedRadio) {
+          showMessage("Please select a status.", "red");
+          return;
+        }
+
+        const newStatus = selectedRadio.value;
+
+        if (
+          newStatus === "confirmed" &&
+          currentBookingStatus === "pending" &&
+          currentPaymentStatus === "pending"
+        ) {
+          showMessage(
+            "Cannot confirm booking while both booking and payment statuses are pending.",
+            "red"
+          );
+          return;
+        }
+
+        fetch(`/updateBookingStatus/${selectedBookingId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ newStatus }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              showMessage("Booking status updated successfully!", "green");
+              document.querySelector(
+                `#booking-${selectedBookingId} td:nth-child(2)`
+              ).innerText = newStatus;
+              updatedBookings[selectedBookingId] = true;
+              document
+                .querySelectorAll('input[name="status"]')
+                .forEach((input) => (input.disabled = true));
+              document.querySelector(
+                '#updateForm button[type="submit"]'
+              ).disabled = true;
+            } else {
+              showMessage("Failed to update booking status.", "red");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            showMessage("An error occurred while updating.", "red");
+          });
+      }
+
+      function showMessage(message, color) {
+        const messageElement = document.getElementById("modalMessage");
+        messageElement.style.color = color;
+        messageElement.textContent = message;
+      }
+
+      document
+        .getElementById("updateForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          submitUpdate();
+        });
+    </script>
+  </body>
+</html>

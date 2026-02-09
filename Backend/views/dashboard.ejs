@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <%- include('header') %>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-image: url("https://imgpile.com/images/67c90eaf9604057f0f9c0e52ffeb119c.jpg");
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background-attachment: fixed;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+
+        flex-wrap: wrap;
+      }
+
+      .container {
+        padding: 50px 20px;
+        text-align: center;
+      }
+
+      .welcome-text {
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 10px;
+        padding: 20px;
+        max-width: 700px;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="welcome-text">
+        <h2>Welcome to HouseHunt</h2>
+        <p>
+          You are successfully logged in, <strong><%= user.firstname %></strong>
+        </p>
+        <p>Role is <strong><%= user.role %></strong></p>
+
+        <% if (user.role === 'tenant') { %>
+        <h4>As a Tenant:</h4>
+        <p>You can browse and view available properties and book them.</p>
+        <% } else if (user.role === 'buyer') { %>
+        <h4>As a Buyer:</h4>
+        <p>
+          You have the ability to buy properties. Explore the listings and make
+          your purchase.
+        </p>
+        <% } else if (user.role === 'owner') { %>
+        <h4>As an Owner:</h4>
+        <p>
+          You can create, update, and manage your own property listings. Share
+          your properties with potential tenants and buyers.
+        </p>
+        <% } else { %>
+        <h4>Welcome!</h4>
+        <p>
+          It looks like you have a custom role. Please contact the admin for
+          more information.
+        </p>
+        <% } %>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

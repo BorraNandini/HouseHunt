@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <%- include('header') %>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url("https://imgpile.com/images/67c90eaf9604057f0f9c0e52ffeb119c.jpg");
+        background-size: cover;
+        background-position: center;
+        text-align: center;
+        height: 100vh;
+      }
+
+      .welcome-message {
+        background-color: rgba(255, 255, 255, 0.683);
+        border-radius: 15px;
+        padding: 40px;
+        max-width: 500px;
+        margin: 50px auto;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .welcome-message h1 {
+        font-size: 36px;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .welcome-message p {
+        font-size: 18px;
+        color: #555;
+      }
+
+      .btn-container {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 16px;
+        text-align: center;
+      }
+
+      .btn:hover {
+        background-color: #218838;
+      }
+
+      nav a {
+        text-decoration: none;
+        margin: 0 10px;
+      }
+
+      .top-btns {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        gap: 10px;
+      }
+
+      .top-btns .btn {
+        background-color: rgba(222, 184, 135, 0.557);
+      }
+
+      .top-btns .btn:hover {
+        background-color: rgba(222, 184, 135, 0.557);
+      }
+
+      .radio-container {
+        display: inline-flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .radio-container input {
+        margin: 0;
+        padding: 0;
+      }
+
+      .radio-container input[type="radio"] {
+        transform: scale(1.3);
+        margin: 0;
+        padding: 0;
+        margin-right: 8px;
+      }
+
+      .radio-container label {
+        font-size: 18px;
+        color: black;
+        margin: 0;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .search-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      .search-container input {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        width: 300px;
+
+        margin-right: 10px;
+      }
+
+      .search-container .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        margin-top: 0px;
+      }
+
+      .search-container .btn:hover {
+        background-color: #218838;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding-top: 60px;
+      }
+
+      .modal-content {
+        background-color: #ffffffc9;
+        margin: 15% auto;
+        padding: 20px;
+        border: 2px solid red;
+        width: 60%;
+
+        max-width: 300px;
+        text-align: center;
+      }
+
+      .close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: red;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
+
+    <script>
+      function validateSearchForm(event) {
+        const searchInput = document.querySelector('input[name="search"]');
+        if (searchInput.value.trim() === "") {
+          event.preventDefault();
+          showModal();
+        }
+      }
+
+      function showModal() {
+        var modal = document.getElementById("searchModal");
+        modal.style.display = "block";
+      }
+
+      function closeModal() {
+        var modal = document.getElementById("searchModal");
+        modal.style.display = "none";
+      }
+
+      window.onclick = function (event) {
+        var modal = document.getElementById("searchModal");
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <section class="welcome-message">
+      <h1>Welcome to the HouseHunt</h1>
+      <p
+        style="
+          font-family: 'Brush Script MT', cursive;
+          font-style: italic;
+          font-size: 32px;
+          color: black;
+        "
+      >
+        Find your perfect home.
+      </p>
+
+      <form
+        action="/search-filterProperties"
+        method="get"
+        onsubmit="validateSearchForm(event)"
+      >
+        <div class="radio-container">
+          <input type="radio" name="property_status" value="buy" <%=
+          property_status === 'buy' ? 'checked' : '' %> />
+          <label>Buy</label>
+          <input type="radio" name="property_status" value="rent" <%=
+          property_status === 'rent' ? 'checked' : '' %> />
+          <label> Rent </label>
+        </div>
+
+        <div class="search-container">
+          <input
+            type="text"
+            name="search"
+            placeholder="Search by city, state, address, etc."
+            value="<%= search %>"
+          />
+
+          <button type="submit" class="btn">Search</button>
+        </div>
+      </form>
+    </section>
+    <div id="searchModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h4>Please enter a search</h4>
+      </div>
+    </div>
+  </body>
+</html>

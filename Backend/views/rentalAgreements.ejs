@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <%- include('header') %>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-image: url("https://imgpile.com/images/67c90eaf9604057f0f9c0e52ffeb119c.jpg");
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background-attachment: fixed;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .container {
+        margin-top: 60px;
+        width: 75%;
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px;
+        background-color: #ffffffbe;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+        text-align: center;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+      .message {
+        font-size: 1.2rem;
+        color: #28a745;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .agreement-details {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .detail-card {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        flex-wrap: wrap;
+        text-align: left;
+      }
+
+      .column {
+        flex: 1;
+        min-width: 250px;
+      }
+
+      .column h2 {
+        font-size: 1.5rem;
+        color: #007bff;
+        margin-bottom: 10px;
+      }
+
+      .column p {
+        font-size: 1rem;
+        margin-bottom: 10px;
+      }
+
+      @media (max-width: 768px) {
+        .detail-card {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Rental Agreements</h1>
+
+      <% if (message) { %>
+      <p class="message"><%= message %></p>
+      <% } %> <% if (rentalAgreements && rentalAgreements.length > 0) { %>
+      <div class="agreement-details">
+        <% rentalAgreements.forEach(function(agreement) { const property =
+        agreement.property || (agreement.booking && agreement.booking.property);
+        const owner = property && property.owner; const tenant =
+        agreement.booking && agreement.booking.user; %>
+        <div class="detail-card">
+          <div class="column">
+            <h2>Agreement Details</h2>
+            <p>
+              <strong>Security Deposit:</strong> <%= agreement.security_deposit
+              %>
+            </p>
+            <p>
+              <strong>Lease Duration:</strong> <%= agreement.lease_duration %>
+            </p>
+            <p>
+              <strong>Booking Confirmation:</strong> <%=
+              agreement.booking_confirmation %>
+            </p>
+          </div>
+
+          <% if (role === 'owner' && tenant) { %>
+          <div class="column">
+            <h2>Tenant Details</h2>
+            <p><strong>First Name:</strong> <%= tenant.firstname %></p>
+            <p><strong>Last Name:</strong> <%= tenant.lastname %></p>
+            <p><strong>Email:</strong> <%= tenant.email %></p>
+            <p><strong>Mobile Number:</strong> <%= tenant.mobile_number %></p>
+          </div>
+          <% } %> <% if (role === 'tenant' && owner) { %>
+          <div class="column">
+            <h2>Owner Details</h2>
+            <p><strong>First Name:</strong> <%= owner.firstname %></p>
+            <p><strong>Last Name:</strong> <%= owner.lastname %></p>
+            <p><strong>Email:</strong> <%= owner.email %></p>
+            <p><strong>Mobile Number:</strong> <%= owner.mobile_number %></p>
+          </div>
+          <% } %>
+
+          <div class="column">
+            <h2>Property Details</h2>
+            <% if (property) { %>
+            <p><strong>Name:</strong> <%= property.name %></p>
+            <p><strong>Address:</strong> <%= property.address %></p>
+            <p><strong>Status:</strong> <%= property.property_status %></p>
+            <p><strong>BHK Type:</strong> <%= property.bhk_type %></p>
+            <p><strong>Price:</strong> ₹<%= property.total_price %></p>
+            <% } else { %>
+            <p><em>Property details not available.</em></p>
+            <% } %>
+          </div>
+        </div>
+        <hr />
+        <% }) %>
+      </div>
+      <% } else { %>
+      <p>No rental agreements available.</p>
+      <% } %>
+    </div>
+  </body>
+</html>

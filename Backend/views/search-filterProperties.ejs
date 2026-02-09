@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+ 
+</head>
+ <title><%= title %></title>
+<%- include('header') %>
+ 
+<style>
+ 
+ body {
+  font-family: Arial, sans-serif;
+  background-image: url("https://imgpile.com/images/67c90eaf9604057f0f9c0e52ffeb119c.jpg");
+  background-size: cover;
+  background-position: center;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  flex-direction: column;
+ overflow-y: auto;
+}
+ 
+.auth-buttons {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    margin: 10px auto;
+  }
+ 
+  .auth-buttons a {
+    color: black;
+    padding: 8px 15px;
+   
+    margin-left: 10px;
+    margin-bottom: 5px;
+    background-color: white;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+ 
+  .auth-buttons a:hover {
+    background-color: white;
+  }
+  .like-button {
+    background-color: #ff7043;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+ 
+ 
+.search-container {
+  width: 80%;
+  max-width: 900px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ margin-top: 0%;
+ margin-bottom: 0;
+  margin: 70px auto 50px;
+ 
+}
+ 
+.search-container input[type="text"] {
+  width: 75%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+  font-size: 16px;
+  margin-top: 170px;
+}
+ 
+ 
+.search-container button {
+  width: 20%;
+  padding: 10px;
+  background-color: #28a745;
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 170px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+ 
+ 
+.search-container button:hover {
+  background-color: #218838;
+}
+ 
+ 
+@media (max-width: 768px) {
+  .search-container {
+    flex-direction: column;
+    align-items: center;
+  }
+ 
+  .search-container input[type="text"],
+  .search-container button {
+    width: 80%;
+    margin-bottom: -40px;
+  }
+}
+ 
+ 
+.radio-container {
+  display: flex;
+ 
+  margin-top: 10px;
+  gap: 5px;
+}
+ 
+.radio-container label {
+  font-size: 16px;
+ 
+ 
+}
+input[type="radio"] {
+-ms-transform: scale(1.3);
+-webkit-transform: scale(1.3);
+transform: scale(1.3);
+}
+.checkbox-container {
+  display: flex;
+ 
+  margin-top: 10px;
+  gap: 15px;
+}
+ 
+.checkbox-container label {
+  font-size: 16px;
+ 
+ 
+}
+input[type="checkbox"] {
+-ms-transform: scale(1.4);
+-webkit-transform: scale(1.4);
+transform: scale(1.4);
+}
+ 
+ 
+.filters-and-properties {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 1200px;
+  margin-top:10px;
+ 
+}
+ 
+ 
+.filters-container {
+  width: 60%;
+  background-color: rgba(216, 212, 206, 0.708);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  overflow-y: auto;
+  height: 90vh;
+ position: relative;
+ margin-top: 0;
+ margin-bottom: 0;
+ 
+}
+ 
+.filters-container h3 {
+  margin-top: 0;
+ 
+}
+ 
+.filter-section {
+  margin-bottom: 20px;
+}
+ 
+.filter-section input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.filter-section label {
+  font-size: 19.5;
+}
+ 
+.properties-container {
+  width: 95%;
+  background-color: rgba(216, 212, 206, 0.776);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  height: 90vh;
+  overflow-y: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+ 
+}
+.property-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+ 
+}
+ 
+ 
+.property-item {
+  background-color: #fdfdfd;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+ 
+ 
+}
+ 
+.property-title {
+  margin: 0 0 20px;
+  font-size: 1.8rem;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+ 
+ 
+.property-content-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+ 
+ 
+.property-images {
+  flex: 1;
+  min-width: 250px;
+}
+ 
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+ 
+.property-image {
+  width: 100%;
+  max-height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  transition: transform 0.01s ease;
+}
+ 
+.property-image:hover {
+  transform: scale(1.05);
+}
+ 
+ 
+.property-details {
+  flex: 1;
+  min-width: 250px;
+}
+ 
+.property-details table {
+  width: 100%;
+  border-collapse: collapse;
+}
+ 
+.property-details td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+ 
+.property-details td:first-child {
+  font-weight: bold;
+  width: 40%;
+}
+ 
+ 
+.property-owner {
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}
+ 
+ 
+.view-owner-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+ 
+.view-owner-btn:hover {
+  background-color: #45a049;
+}
+ 
+.booking-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+ 
+.booking-btn:hover {
+  background-color: #45a049;
+}
+ 
+@media (max-width: 768px) {
+  .property-content-row {
+    flex-direction: column;
+  }
+ 
+  .property-images, .property-details {
+    width: 100%;
+  }
+}
+ 
+h3, h4 {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+.filter-section {
+  margin-bottom: 20px;  
+}
+ 
+ 
+.spacing-between {
+  margin: 20px 0;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  padding-top: 60px;
+}
+ 
+ 
+.modal-content {
+  background-color: #fff;
+  position: right;
+  margin: 8% auto;
+  padding: 20px;
+  border: 1px solid red;
+  width: 30%;
+  max-width: 400px;
+  border-radius: 8px;
+}
+ 
+ 
+.close-btn {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+ 
+.close-btn:hover,
+.close-btn:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+#imagePreviewContainer {
+  display: none;
+  text-align: center;  
+  margin-top: 20px;
+}
+ 
+#imagePreview {
+  max-width: 50%;
+  max-height: 400px;
+  object-fit: contain;  
+}
+.reset-filters {
+  color: rgba(31, 15, 15, 0.89);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+}
+ 
+.reset-filters span {
+  margin-right: 8px;  
+}
+.filter-reset{
+ display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+ 
+.reset-filters:hover {
+  background-color: #d6c0be;  
+}
+header {
+  position: fixed;
+  height:20px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background:  #494646;
+  color: white;
+  z-index: 1000;
+ 
+}
+ 
+  header h1 {
+    margin: 0;
+    font-size: 28px;
+    color: white;
+  }
+ 
+  .header-actions {
+    display: flex;
+    gap: 30px;
+  }
+ 
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+ 
+  .profile-btn {
+    background-color: #985c0e;
+    color: white;
+    padding: 10px 40px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+    position: relative;
+    right: -30px;
+    margin-left: 80px;
+  }
+ 
+ 
+  .profile-btn:hover {
+    background-color: #b4864a;
+  }
+ 
+ 
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ebe9e7;
+    min-width: 160px;
+    top: 110%;
+    left: 50;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 999;
+    text-align: left;
+    right: -30px;
+    margin-left: 80px;
+  }
+ 
+ 
+  .dropdown-content a,
+  .dropdown-content form button {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 1rem;
+    background: none;
+    border: none;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+  }
+ 
+  .dropdown-content a:hover,
+  .dropdown-content form button:hover {
+    background-color: #ddd;
+  }
+ 
+ 
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+ 
+  .logout-btn {
+    font-size: 1rem;
+    color: black;
+  }
+ 
+  .property-content-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+ 
+        .carousel-inner {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+ 
+        .carousel-item {
+            display: none;
+            position: relative;
+            width: 100%;
+            transition: transform 0.01s ease-in-out;  
+         
+        }
+ 
+        .carousel-item.active {
+            display: block;
+        }
+ 
+        .carousel-control-prev,
+        .carousel-control-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5%;
+            height: 100%;
+            color: white;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+        }
+ 
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: no-repeat 50%/100% 100%;
+        }
+        .carousel-control-prev-icon {
+     background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23fff" viewBox="0 0 8 8"%3E%3Cpath d="M4.5 0L3.5 1 6 3.5 3.5 6 4.5 7l4-4-4-4z"/%3E%3C/svg%3E');
+     }
+    .carousel-control-next-icon {
+     background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23fff" viewBox="0 0 8 8"%3E%3Cpath d="M3.5 0L4.5 1 2 3.5 4.5 6 3.5 7l-4-4 4-4z"/%3E%3C/svg%3E');
+    }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+  .like-btn {
+  background-color: transparent;
+  border: none;           /* No border */
+  outline: none;          /* No outline on focus */
+  padding: 8px;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+ 
+.like-btn:focus,
+.like-btn:active {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important; 
+}
+ 
+.like-btn i {
+  color: black; 
+}
+ 
+.like-btn.liked i {
+  color: red;   
+}
+ 
+.like-btn .fas.fa-heart {
+  color: red;
+}
+ 
+.like-btn .far.fa-heart {
+  color: grey;
+}
+ 
+ 
+ 
+</style>
+ <body>
+<form   id="filter-form">
+  <div id="searchModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h4>Please enter a search term</h4>
+      <p>The search field cannot be empty.</p>
+    </div>
+  </div>
+ 
+  <div class="search-container">
+    <input type="text" id="search" name="search" class="input-field" placeholder="Search by city, state, address, etc." value="<%= search || '' %>">
+ 
+    <button type="submit"  class="btn">Search</button>
+  </div>
+ 
+  <div class="filters-and-properties">
+   
+ 
+    <div  class="filters-container">
+      <div class="filter-reset" id="reset-button">
+        <h2>Filters</h2>
+        <button class="reset-filters" onclick="resetFilters()">
+          <span>&#x21bb;</span>
+        </button>
+      </div>
+     
+ 
+      <div class="filter-section" id="filters-container">
+        <div class="filter-section">
+          <h4>Property Status:</h4>
+          <div class="radio-container">
+            <label>
+              <input
+                type="radio"
+                name="property_status"
+                value="buy"
+                id="buy"
+                <%= property_status === 'buy' ? 'checked' : '' %>
+              />
+              Buy
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="property_status"
+                value="rent"
+                id="rent"
+                <%= property_status === 'rent' ? 'checked' : '' %>
+              />
+              Rent
+            </label>
+          </div>
+        </div>
+     
+      </div>
+ 
+      <div class="filter-section">
+      <h4>Property Type:</h4>
+          <div class="radio-container">
+            <label>
+              <input type="radio" name="filter.type" value="community" id="community" <%= filter && filter.type === 'community' ? 'checked' : '' %>> Community
+            </label>
+            <label>
+              <input type="radio" name="filter.type" value="apartment" id="apartment"<%= filter && filter.type === 'apartment' ? 'checked' : '' %>> Apartment
+            </label>
+            <label>
+              <input type="radio" name="filter.type" value="individual" id="individual"<%= filter && filter.type === 'individual' ? 'checked' : '' %>> Individual
+            </label>
+          </div>
+        </div>
+     
+       
+        <div class="filter-section">
+          <h4>Base Price Range:</h4>
+          <div class="range-inputs">
+            <label>
+              Min Price:
+              <input type="number" name="filter.base_price_min" id="base_price_min"
+                     value="<%= filter && filter['filter.base_price_min'] || '' %>" placeholder="e.g. 1000">
+            </label>
+            <label>
+              Max Price:
+              <input type="number" name="filter.base_price_max" id="base_price_max"
+                     value="<%= filter && filter['filter.base_price_max'] || '' %>" placeholder="e.g. 5000">
+            </label>
+          </div>
+        </div>
+       
+       
+         
+          <div class="filter-section">
+          <h4>BHK Type:</h4>
+          <div class="checkbox-container">
+            <label>
+              <input type="checkbox" name="filter.bhk_type"   id="3BHK" value="3BHK" <%= filter && filter.bhk_type && filter.bhk_type.includes('3BHK') ? 'checked' : '' %>> 3 BHK
+            </label>
+            <label>
+              <input type="checkbox" name="filter.bhk_type" id="2BHK" value="2BHK" <%= filter && filter.bhk_type && filter.bhk_type.includes('2BHK') ? 'checked' : '' %>> 2 BHK
+            </label>
+            <label>
+              <input type="checkbox" name="filter.bhk_type"id="1BHK" value="1BHK"  <%= filter && filter.bhk_type && filter.bhk_type.includes('1BHK') ? 'checked' : '' %>> 1 BHK
+            </label>
+            <label>
+              <input type="checkbox" name="filter.bhk_type"id="1RK" value="1RK" <%= filter && filter.bhk_type && filter.bhk_type.includes('1RK') ? 'checked' : '' %>> 1RK
+            </label>
+          </div>
+          </div>
+         
+          <div class="filter-section">
+            <h4>Floor:</h4>
+            <div class="checkbox-container">
+              <label>
+                <input type="checkbox" name="filter.floor"id="ground floor" value="ground floor"
+                  <%= filter && filter.floor && filter.floor.includes('ground floor') ? 'checked' : '' %>> Ground Floor
+              </label>
+              <label>
+                <input type="checkbox" name="filter.floor" id="1" value="1"
+                  <%= filter && filter.floor && filter.floor.includes('1') ? 'checked' : '' %>> 1
+              </label>
+              <label>
+                <input type="checkbox" name="filter.floor" id="2" value="2"
+                  <%= filter && filter.floor && filter.floor.includes('2') ? 'checked' : '' %>> 2
+              </label>
+              <label>
+                <input type="checkbox" name="filter.floor" id="3" value="3"
+                  <%= filter && filter.floor && filter.floor.includes('3') ? 'checked' : '' %>> 3
+              </label>
+              <label>
+                <input type="checkbox" name="filter.floor" id="4" value="4"
+                  <%= filter && filter.floor && filter.floor.includes('4') ? 'checked' : '' %>> 4
+              </label>
+              <label>
+                <input type="checkbox" name="filter.floor" id="5" value="5"
+                  <%= filter && filter.floor && filter.floor.includes('5') ? 'checked' : '' %>> 5
+              </label>
+              <label>
+                <input type="checkbox" name="filter.floor" id="6" value="6"
+                  <%= filter && filter.floor && filter.floor.includes('6') ? 'checked' : '' %>> 6
+              </label>
+              <label>
+                <input type="checkbox" name="filter.floor" id="7" value="7"
+                  <%= filter && filter.floor && filter.floor.includes('7') ? 'checked' : '' %>> 7
+              </label>
+              <label>
+                <input type="checkbox" name="filter.floor" id="8" value="8"
+                  <%= filter && filter.floor && filter.floor.includes('8') ? 'checked' : '' %>> 8
+              </label>
+              <label>
+                <input type="checkbox" name="filter.floor"id="9" value="9"
+                  <%= filter && filter.floor && filter.floor.includes('9') ? 'checked' : '' %>> 9
+              </label>
+              <label>
+                <input type="checkbox" name="filter.floor" id="10" value="10"
+                  <%= filter && filter.floor && filter.floor.includes('10') ? 'checked' : '' %>> 10
+              </label>
+            </div>
+          </div>
+         
+ 
+          <div class="filter-section">
+            <h4>Amenities:</h4>
+            <div class="checkbox-container">
+              <div class="checkbox-column">
+                <label>
+                  <input type="checkbox" name="filter.amenities" id="swimming pool" value="swimming pool"
+                         <%= filter && filter.amenities && filter.amenities.includes('swimming pool') ? 'checked' : '' %>> Swimming Pool
+                </label>
+                <label>
+                  <input type="checkbox" name="filter.amenities" id="gym" value="gym"
+                         <%= filter && filter.amenities && filter.amenities.includes('gym') ? 'checked' : '' %>> Gym
+                </label>
+                <label>
+                  <input type="checkbox" name="filter.amenities" id="play area" value="play area"
+                         <%= filter && filter.amenities && filter.amenities.includes('play area') ? 'checked' : '' %>> Play Area
+                </label>
+                <label>
+                  <input type="checkbox" name="filter.amenities" id="lift" value="lift"
+                         <%= filter && filter.amenities && filter.amenities.includes('lift') ? 'checked' : '' %>> Lift
+                </label>
+                <label>
+                  <input type="checkbox" name="filter.amenities" id="internet services"value="internet services"
+                         <%= filter && filter.amenities && filter.amenities.includes('internet services') ? 'checked' : '' %>> Internet Services
+                </label>
+              </div>
+              <div class="checkbox-column">
+                <label>
+                  <input type="checkbox" name="filter.amenities" id="air conditioner"value="air conditioner"
+                         <%= filter && filter.amenities && filter.amenities.includes('air conditioner') ? 'checked' : '' %>> Air Conditioner
+                </label>
+                <label>
+                  <input type="checkbox" name="filter.amenities" id="club house" value="club house"
+                         <%= filter && filter.amenities && filter.amenities.includes('club house') ? 'checked' : '' %>> Club House
+                </label>
+                <label>
+                  <input type="checkbox" name="filter.amenities" id="intercom" value="intercom"
+                         <%= filter && filter.amenities && filter.amenities.includes('intercom') ? 'checked' : '' %>> Intercom
+                </label>
+                <label>
+                  <input type="checkbox" name="filter.amenities" id="fire safety" value="fire safety"
+                         <%= filter && filter.amenities && filter.amenities.includes('fire safety') ? 'checked' : '' %>> Fire Safety
+                </label>
+                <label>
+                  <input type="checkbox" name="filter.amenities" id="gas pipeline" value="gas pipeline"
+                         <%= filter && filter.amenities && filter.amenities.includes('gas pipeline') ? 'checked' : '' %>> Gas Pipeline
+                </label>
+              </div>
+              <div class="checkbox-column">
+                <label>
+                  <input type="checkbox" name="filter.amenities" id="house keeping" value="house keeping"
+                         <%= filter && filter.amenities && filter.amenities.includes('house keeping') ? 'checked' : '' %>> House Keeping
+                </label>
+                <label>
+                  <input type="checkbox" name="filter.amenities" id="power backup" value="power backup"
+                         <%= filter && filter.amenities && filter.amenities.includes('power backup') ? 'checked' : '' %>> Power Backup
+                </label>
+                <label>
+                  <input type="checkbox" name="filter.amenities" id="visitor parking" value="visitor parking"
+                         <%= filter && filter.amenities && filter.amenities.includes('visitor parking') ? 'checked' : '' %>> Visitor Parking
+                </label>
+              </div>
+            </div>
+          </div>
+         
+            <div class="filter-section">
+            <h4>Parking:</h4>
+            <div class="checkbox-container">
+              <label>
+                <input type="checkbox" name="filter.parking" id="car" value="car" <%= filter && filter.parking && filter.parking.includes('car') ? 'checked' : '' %>> Car
+              </label>
+              <label>
+                <input type="checkbox" name="filter.parking" id="bike" value="bike" <%= filter && filter.parking && filter.parking.includes('bike') ? 'checked' : '' %>> Bike
+              </label>
+              <label>
+                <input type="checkbox" name="filter.parking" id="both car and bike" value="both car and bike" <%= filter && filter.parking && filter.parking.includes('both car and bike') ? 'checked' : '' %>> Both Car & Bike
+              </label>
+              <label>
+                <input type="checkbox" name="filter.parking" id="none" value="none" <%= filter && filter.parking && filter.parking.includes('none') ? 'checked' : '' %>> None
+              </label>
+            </div>
+            </div>
+           
+ 
+         
+          <div class="filter-section">
+          <h4>Furnishing:</h4>
+          <div class="checkbox-container">
+            <label>
+              <input type="checkbox" name="filter.furnishing" id=" fully furnished" value="fully furnished" <%= filter && filter.furnishing && filter.furnishing.includes('fully furnished') ? 'checked' : '' %>> Furnished
+            </label>
+            <label>
+              <input type="checkbox" name="filter.furnishing" id="semi-furnished" value="semi-furnished" <%= filter && filter.furnishing && filter.furnishing.includes('semi-furnished') ? 'checked' : '' %>> SemiFurnished
+            </label>
+            <label>
+              <input type="checkbox" name="filter.furnishing" id="unfurnished" value="unfurnished" <%= filter && filter.furnishing && filter.furnishing.includes('unfurnished') ? 'checked' : '' %>> Unfurnished
+            </label>
+          </div>
+          </div>
+          <div class="filter-section">
+            <h4>Property Age:</h4>
+            <div class="checkbox-container">
+              <label>
+                <input type="checkbox" name="filter.property_age" id="1-2 year" value="1-2 year"
+                       <%= filter && filter.property_age && filter.property_age.includes('1-2 year') ? 'checked' : '' %>>1-2
+              </label>
+              <label>
+                <input type="checkbox" name="filter.property_age" id="2-3 year" value="2-3 year"
+                       <%= filter && filter.property_age && filter.property_age.includes('2-3 year') ? 'checked' : '' %>>2-3
+              </label>
+              <label>
+                <input type="checkbox" name="filter.property_age" id="3-4 year" value="3-4 year"
+                       <%= filter && filter.property_age && filter.property_age.includes('3-4 year') ? 'checked' : '' %>>3-4
+              </label>
+              <label>
+                <input type="checkbox" name="filter.property_age" id="4-5 year" value="4-5 year"
+                       <%= filter && filter.property_age && filter.property_age.includes('4-5 year') ? 'checked' : '' %>>4-5
+              </label>
+              <label>
+                <input type="checkbox" name="filter.property_age" id="More than 5 year" value="More than 5 year"
+                       <%= filter && filter.property_age && filter.property_age.includes('More than 5 year') ? 'checked' : '' %>> More than 5 years
+              </label>
+            </div>
+        </div>
+        <% if (property_status === 'rent') { %>
+          <div class="filter-section preferred-tenants-section">
+            <h4>Preferred Tenants:</h4>
+            <div class="checkbox-container" >
+              <label>
+                <input type="checkbox" name="filter.preferred_tenants" id="anyone" value="anyone" <%= filter && filter.preferred_tenants && filter.preferred_tenants.includes('anyone') ? 'checked' : '' %>> Anyone
+              </label>
+              <label>
+                <input type="checkbox" name="filter.preferred_tenants" id="bachelors" value="bachelors" <%= filter && filter.preferred_tenants && filter.preferred_tenants.includes('bachelors') ? 'checked' : '' %>> Bachelors
+              </label>
+              <label>
+                <input type="checkbox" name="filter.preferred_tenants" id="family" value="family" <%= filter && filter.preferred_tenants && filter.preferred_tenants.includes('family') ? 'checked' : '' %>> Family
+              </label>
+            </div>
+          </div>
+          <% } %>
+       
+       
+          <div class="filter-section">
+            <h4>Available Bathrooms:</h4>
+            <div class="checkbox-container">
+              <label>
+                <input type="checkbox" name="filter.available_bathrooms" id="1" value="1"
+                  <%= filter && filter.available_bathrooms && filter.available_bathrooms.includes('1') ? 'checked' : '' %>> 1 or more
+              </label>
+              <label>
+                <input type="checkbox" name="filter.available_bathrooms" id="2" value="2"
+                  <%= filter && filter.available_bathrooms && filter.available_bathrooms.includes('2') ? 'checked' : '' %>> 2 or more
+              </label>
+              <label>
+                <input type="checkbox" name="filter.available_bathrooms" id="3" value="3"
+                  <%= filter && filter.available_bathrooms && filter.available_bathrooms.includes('3') ? 'checked' : '' %>> 3 or more
+              </label>
+            </div>
+          </div>
+         
+    </div>
+ 
+<div class="properties-container" id="property-list-container">
+  <h2>Properties List</h2>
+ 
+  <% if (properties && properties.length > 0) { %>
+    <div class="property-grid"  >
+      <% properties.forEach((property ,index)=> { %>
+           <div class="property-item" id="property-<%= property.id %>">
+       
+          <h3 class="property-title"><%= property.name %></h3>
+ 
+       
+          <div class="property-content-row">
+           
+            <div class="property-images">
+              <div id="carouselProperty<%= index %>" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                  <% if (property.images && property.images.length > 0) { %>
+                    <% property.images.forEach(function(image, index) { %>
+                      <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                        <img class="d-block w-100" src="<%= image.image_path.replace(/\\/g, "/") %>" alt="Property Image">
+                      </div>
+                    <% }); %>
+                  <% } else { %>
+                    <div class="carousel-item active">
+                      <p>No images available for this property.</p>
+                    </div>
+                  <% } %>
+                </div>
+             
+                <a class="carousel-control-prev" href="#carouselProperty<%= index %>" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselProperty<%= index %>" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
+            </div>
+         
+            <div class="property-details">
+              <table>
+                <tbody>
+                  <% if (property.property_status === 'rent') { %>
+                    <tr><td>Price</td><td><%= property.base_price %> </td></tr>
+                  <% } else { %>
+                    <tr><td>Price</td><td><%= property.total_price %></td></tr>
+                  <% } %>
+                  <tr><td>Type</td><td><%= property.type %></td></tr>
+                  <tr><td>Size</td><td><%= property.size %></td></tr>
+                  <tr><td>BHK</td><td><%= property.bhk_type %></td></tr>
+                  <tr><td>Age</td><td><%= property.property_age %></td></tr>
+                  <tr><td>Bathrooms</td><td><%= property.available_bathrooms %></td></tr>
+                  <% if (property.property_status === 'rent') { %>
+                    <tr><td>Tenants</td><td><%= property.preferred_tenants %></td></tr>
+                  <% } %>
+                 
+                  <tr><td>Furnishing</td><td><%= property.furnishing %></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+       <% if (user && user.role === 'owner') { %>
+  <% if (property.ownerId === user.id) { %>
+    <div class="property-owner">
+      <h4>Your Property</h4>
+    </div>
+  <% } else { %>
+  <% } %>
+<% } else { %>
+  <div class="property-owner">
+    <h4>Owner Details</h4>
+
+    <button
+      type="button"
+      class="view-owner-btn"
+      onclick="window.location.href='/propertyInfo/<%= property.id %>'">
+      View Owner Details
+    </button>
+
+    <button
+      type="button"
+      class="booking-btn"
+      onclick="window.location.href='/createBooking/<%= property.id %>'">
+      Book
+    </button>
+
+    <% if (user) { %>
+      <button
+        type="button"
+        class="like-btn <%= likedPropertyIds.map(String).includes(String(property.id)) ? 'liked' : '' %>"
+        onclick="toggleLike('<%= property.id %>', event)">
+        <i id="like-icon-<%= property.id %>"
+           class="<%= likedPropertyIds.map(String).includes(String(property.id)) ? 'fas' : 'far' %> fa-heart"
+           style="cursor: pointer"
+           title="<%= likedPropertyIds.map(String).includes(String(property.id)) ? 'Click to Unshortlist' : 'Click to Shortlist' %>"></i>
+      </button>
+    <% } else { %>
+      <button
+        type="button"
+        class="like-btn"
+        onclick="redirectToLogin()">
+        <i class="far fa-heart"></i>
+      </button>
+    <% } %>
+  </div>
+<% } %>
+        </div>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <p><%= message || 'No properties found matching your search criteria.' %></p>
+  <% } %>
+</div>
+</form>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+ 
+  var modal = document.getElementById('searchModal');
+  var closeBtn = document.getElementsByClassName('close-btn')[0];
+  var searchForm = document.querySelector('form');
+  var searchInput = document.querySelector('input[name="search"]');
+  searchForm.addEventListener('submit', function(event) {
+   
+    if (searchInput.value.trim() === '') {
+      event.preventDefault();
+      modal.style.display = 'block';
+    }
+  });
+  closeBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+  });
+  window.addEventListener('click', function(event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  });
+ 
+  function debounce(func, delay) {
+  let timeoutId;
+  return function(...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
+ document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('filter-form');
+  const rentRadio = document.getElementById('rent');
+  const buyRadio = document.getElementById('buy');
+  const preferredTenantsSection = document.querySelector('.preferred-tenants-section');
+  const resetButton = document.getElementById('reset-button');
+  const propertyListContainer = document.getElementById('property-list-container');
+ 
+  function togglePreferredTenants() {
+    if (preferredTenantsSection) {
+      preferredTenantsSection.style.display = rentRadio && rentRadio.checked ? 'block' : 'none';
+    }
+  }
+ 
+  function showLoadingIndicator() {
+    if (propertyListContainer) {
+      propertyListContainer.innerHTML = '<p>Loading...</p>';
+    }
+  }
+ 
+  function updatePropertyList() {
+    showLoadingIndicator();
+    const formData = new FormData(form);
+    const params = new URLSearchParams(formData).toString();
+ 
+    fetch(`/search-filterProperties?${params}&partial=true`, { method: "GET" })
+      .then(response => response.text())
+      .then(data => {
+        if (propertyListContainer) {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(data, 'text/html');
+          propertyListContainer.innerHTML = '';
+ 
+          const properties = doc.querySelectorAll('.property-item');
+          const heading = document.createElement('h2');
+          heading.textContent = "Properties List";
+          propertyListContainer.appendChild(heading);
+ 
+          const deletedIds = JSON.parse(localStorage.getItem("deletedProperties")) || [];
+          console.log("Deleted IDs from localStorage:", deletedIds);
+ 
+          if (properties.length > 0) {
+            properties.forEach(property => {
+              const id = property.id.replace("property-", "");
+              console.log("Checking property ID:", id);
+              if (!deletedIds.includes(id)) {
+                propertyListContainer.appendChild(property);
+              }
+            });
+          } else {
+            const noPropertiesMessage = document.createElement('p');
+            noPropertiesMessage.textContent = "No properties found.";
+            propertyListContainer.appendChild(noPropertiesMessage);
+          }
+        }
+      })
+      .catch(error => console.error("Error:", error));
+  }
+ 
+  const debouncedUpdatePropertyList = debounce(updatePropertyList, 300);
+ 
+  function resetFilters() {
+    document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => input.checked = false);
+    document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
+    togglePreferredTenants();
+    updatePropertyList();
+  }
+ 
+  if (rentRadio && buyRadio) {
+    togglePreferredTenants();
+    rentRadio.addEventListener('change', togglePreferredTenants);
+    buyRadio.addEventListener('change', togglePreferredTenants);
+  }
+ 
+  document.querySelectorAll('.filter-section input').forEach(input => {
+    input.addEventListener('change', function (event) {
+      event.preventDefault();
+      debouncedUpdatePropertyList();
+    });
+  });
+ 
+  document.querySelectorAll('.filter-section input[type="number"]').forEach(input => {
+    input.addEventListener('input', function (event) {
+      event.preventDefault();
+      debouncedUpdatePropertyList();
+    });
+  });
+ 
+  if (resetButton) {
+    resetButton.addEventListener('click', function (event) {
+      event.preventDefault();
+   
+      resetFilters();
+    });
+  }
+ 
+ 
+  const deletedIds = JSON.parse(localStorage.getItem("deletedProperties")) || [];
+  deletedIds.forEach((id) => {
+    const element = document.getElementById(`property-${id}`);
+    if (element) {
+      element.remove();
+    }
+  });
+ 
+  togglePreferredTenants();
+});
+
+function toggleLike(propertyId, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+  }
+ 
+  console.log("Toggling property:", propertyId);
+ 
+  const icon = document.getElementById(`like-icon-${propertyId}`);
+  const button = icon.closest('.like-btn');
+  const isLiked = button.classList.contains('liked');
+ 
+  icon.classList.toggle('fas');
+  icon.classList.toggle('far');
+  button.classList.toggle('liked');
+  icon.setAttribute('title', isLiked ? 'Click to Shortlist' : 'Click to Unshortlist');
+ 
+  fetch('/shortlist', {
+    method: isLiked ? 'DELETE' : 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include',
+    body: JSON.stringify({ propertyId })
+  })
+    .then(response => {
+      if (response.status === 401) {
+        window.location.href = '/login';
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data.message);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+ 
+function redirectToLogin() {
+  window.location.href = '/login';
+}
+</script>
+</body>
+</html>

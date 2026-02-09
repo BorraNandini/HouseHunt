@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <%- include('header') %>
+  </head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url("https://imgpile.com/images/67c90eaf9604057f0f9c0e52ffeb119c.jpg");
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-attachment: fixed;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 700px;
+      margin: 20px auto;
+      background-color: rgba(216, 212, 206, 0.708);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+      max-height: 75vh;
+      margin-top: 80px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      display: block;
+      margin-top: 20px;
+    }
+
+    .form-group {
+      width: 100%;
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    label {
+      font-size: 1.1em;
+      margin-bottom: 5px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    input.error,
+    select.error {
+      border-color: red;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+      position: absolute;
+      bottom: -18px;
+      left: 0;
+    }
+
+    .button-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #4caf50;
+      color: white;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      justify-content: center;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .message-container {
+      padding: 10px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 1.3em;
+    }
+
+    .message-container.error {
+      color: red;
+      text-align: center;
+    }
+
+    .message-container.success {
+      color: green;
+      text-align: center;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .btn {
+      justify-content: center;
+    }
+
+    .profile-btn {
+      background-color: #985c0e;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1rem;
+      margin-right: 30px;
+      transition: background-color 0.3s;
+    }
+
+    .profile-btn:hover {
+      background-color: #b4864a;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #a17f5e;
+      min-width: 160px;
+      top: 40px;
+      right: 0;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      border-radius: 5px;
+      z-index: 999;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 1rem;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .logout-btn {
+      background-color: #a17f5e;
+      color: black;
+      border: none;
+      padding: 12px 16px;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .logout-btn:hover {
+      background-color: white;
+      color: black;
+    }
+
+    @media screen and (max-width: 768px) {
+      .form-group {
+        width: 100%;
+      }
+    }
+  </style>
+  <body>
+    <body>
+      <div class="container">
+        <h1>Create Rental Agreement</h1>
+        <form action="/createRentalAgreement" method="POST">
+          <% if (typeof message !== 'undefined' && message) { %> <% if
+          (messageType === 'error') { %>
+          <div class="message-container error"><%= message %></div>
+          <% } else if (messageType === 'success') { %>
+          <div class="message-container success"><%= message %></div>
+          <% } %> <% } %>
+          <div class="form-group">
+            <label for="property_id">Property ID:</label>
+            <input
+              type="text"
+              id="property_id"
+              name="property_id"
+              value="<%= data.property_id || '' %>"
+              class="<%= errors.property_id ? 'error' : '' %>"
+              oninput="clearError('property_id')"
+            />
+            <% if (errors.property_id) { %>
+            <div class="error-message"><%= errors.property_id.msg %></div>
+            <% } %>
+          </div>
+
+          <div class="form-group">
+            <label for="booking_id">Booking ID:</label>
+            <input
+              type="text"
+              id="booking_id"
+              name="booking_id"
+              value="<%= data.booking_id || '' %>"
+              class="<%= errors.booking_id ? 'error' : '' %>"
+              oninput="clearError('booking_id')"
+            />
+            <% if (errors.booking_id) { %>
+            <div class="error-message"><%= errors.booking_id.msg %></div>
+            <% } %>
+          </div>
+
+          <div class="form-group">
+            <label for="security_deposit">Security Deposit:</label>
+            <input
+              type="text"
+              id="security_deposit"
+              name="security_deposit"
+              value="<%= data.security_deposit || '' %>"
+              class="<%= errors.security_deposit ? 'error' : '' %>"
+              oninput="clearError('security_deposit')"
+            />
+            <% if (errors.security_deposit) { %>
+            <div class="error-message"><%= errors.security_deposit.msg %></div>
+            <% } %>
+          </div>
+          <div class="form-group">
+            <label for="lease_duration">Lease Duration:</label>
+            <input
+              type="text"
+              id="lease_duration"
+              name="lease_duration"
+              value="<%= data.lease_duration || '' %>"
+              class="<%= errors.lease_duration ? 'error' : '' %>"
+              oninput="clearError('lease_duration')"
+            />
+            <% if (errors.lease_duration) { %>
+            <div class="error-message"><%= errors.lease_duration.msg %></div>
+            <% } %>
+          </div>
+          <div class="form-group">
+            <label for="booking_confirmation">Booking Confirmation:</label>
+            <select
+              id="booking_confirmation"
+              name="booking_confirmation"
+              class="<%= errors.confirmation ? 'error' : '' %>"
+              oninput="clearError('booking_confirmation')"
+            >
+              <option value="confirmed">
+                <%= data.booking_confirmation === 'confirmed' ? 'selected' : ''
+                %>Confirmed
+              </option>
+              <option value="pending">
+                <%= data.booking_confirmation === 'pending' ? 'selected' : ''
+                %>Pending
+              </option>
+              <option value="cancelled">
+                <%= data.booking_confirmation === 'cancelled' ? 'selected' : ''
+                %>Cancelled
+              </option>
+              <option value="rejected">
+                <%= data.booking_confirmation === 'rejected' ? 'selected' : ''
+                %>Rejected
+              </option>
+            </select>
+            <% if (errors.booking_confirmation) { %>
+            <div class="error-message">
+              <%= errors.booking_confirmation.msg %>
+            </div>
+            <% } %>
+          </div>
+          <button type="submit" class="btn">Create Agreement</button>
+        </form>
+      </div>
+      <script>
+        function clearError(field) {
+          const inputElement = document.getElementById(field);
+          const errorMessage = inputElement
+            .closest(".form-group")
+            .querySelector(".error-message");
+          if (errorMessage) {
+            errorMessage.style.display = "none";
+          }
+          inputElement.classList.remove("error");
+        }
+      </script>
+    </body>
+  </body>
+</html>

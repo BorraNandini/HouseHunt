@@ -1,0 +1,72 @@
+.dashboard-body {
+  font-family: Arial, sans-serif;
+  background-image: url("https://imgpile.com/images/67c90eaf9604057f0f9c0e52ffeb119c.jpg");
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-family: "Brush Script MT", cursive;
+  font-style: italic;
+  font-size: 45px;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-description {
+  text-align: center;
+  margin-top: 2px;
+}
+.dashboard-container {
+  background-color: rgba(255, 255, 255, 0.683);
+  border-radius: 15px;
+  padding: 40px;
+  margin-top: -120px;
+  max-width: 550px;
+  width: 100%;
+  max-height: 500px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.dashboard-description {
+  text-align: center;
+}
+
+.dashboard-subtitle {
+  font-size: 24px;
+  text-align: center;
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+.subText {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.role {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.welcome-text {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 700px;
+  margin: auto;
+}
